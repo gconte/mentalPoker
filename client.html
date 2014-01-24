@@ -14,7 +14,7 @@
 				alert(message);
 				socket.emit('nouveauMessage', 'ACK_Client');
 			});
-			
+	
 			var cards = new Array(52);
 			var Bcards = new Array(5);
 			var Acards = new Array(5);
@@ -108,19 +108,14 @@
 			
 			var isprime = function(n)
 			{
-				d = 0; a = 0 ; rst = 1; rst2 = 1
-				while (d*d<=n && rst*rst2 >0)
+				for(var i=2; i<= Math.sqrt(n); i++)
 				{
-					a++
-					d = 6*a - 1 ; rst = n % d
-					d = d + 2 ; rst2 = n % d
-				}
-				if(rst == 0 || rst2 == 0)
-				{
-					if (rst == 0) {d = d-2}
-					return false;
-				}
-				else {return true;}
+					 if(n%i ==0)
+					 {
+					   return false;
+					 }
+				 }
+				return true;
 			};
 			
 			var modpower = function(x,n,p)
@@ -167,9 +162,20 @@
 				
 			}
 			
-			var choices = function()
+			var choices = function(id)
 			{
 				Bchoice = prompt("Saisir la position des 5 cartes à envoyer à Bob, séparées par une virgule :  ");
+/*				
+				if(document.getElementById(id).checked == true)
+				{
+					var cardCheat = cheat(11);
+					Achoice = prompt("Choisir les 5 cartes suivantes, séparées par une virgule " + cardCheat + " : ");	
+				}
+				else
+				{
+					Achoice = prompt("Saisir la position des 5 cartes à garder pour soi, séparées par une virgule :  ");
+				}
+*/
 				Achoice = prompt("Saisir la position des 5 cartes à garder pour soi, séparées par une virgule :  ");
 				var resB = Bchoice.split(",");
 				var resA = Achoice.split(",");
@@ -229,6 +235,8 @@
 			{
 				var card = new Array();
 				
+				test = Math.floor((x-48)/13);
+				
 				switch(Math.floor((x-48)/13))
 				{
 					case 0 :
@@ -241,6 +249,7 @@
 					    card = " of Hearts"; break;
 				}
 				
+				test2 = ((x-48)%13);
 				switch(((x-48)%13))
 				{
 					case 0:
@@ -277,7 +286,8 @@
 			{
 				var a = 0,
 					b = 0;
-					
+				
+				var cardCheat = "";
 				for(i = 48; i <= 99; i++)
 				{
 					res = modpower(i,((val-1)/2),val);
@@ -287,17 +297,18 @@
 					}
 					else if(res == (val-1))
 					{
-						b = b + ((i-48)%13);
+//						b = b + ((i-48)%13);
 					}
 					else
 					{
-						alert("fail");
+//						alert("fail");
 					}
 				} 
+				return cardCheat;
 			}
 			
 			
-			var doWork = function()
+			var doWork = function(id)
 			{
 				ok = 0
 				
@@ -327,7 +338,7 @@
 				
 				//shuffleCards();
 				encryptCard();
-				choices();
+				choices(id);
 				decrypt();
 			}
 		</script>
@@ -336,8 +347,11 @@
 			<form onsubmit="return (doWork());">
 	    	<input type="submit" value="Play" />
 		</form>
--->		
-		<input type="button" value="Play" onClick="doWork()" style="width:300px; height:40px"><br><br>
+-->				
+		<label><input type="radio" name="method" id="noCheat" checked/>noCheat</label>
+		<label><input type="radio" name="method" id="Cheat" />Cheat</label><br>
+
+		<input type="button" value="Play" onClick="doWork('Cheat')" style="width:300px; height:40px"><br><br>
 	</body>
 </html>
 

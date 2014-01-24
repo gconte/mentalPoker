@@ -21,7 +21,7 @@ io.sockets.on('connection', function (socket)
 {
 	console.log('Nouveau client connecté');
 	
-    socket.emit('retConnect', 'Vous êtes connecté au serveur');
+//    socket.emit('retConnect', 'Vous êtes connecté au serveur');
     socket.on('nouveauMessage', function (mess) 
     {
     	console.log(mess);
